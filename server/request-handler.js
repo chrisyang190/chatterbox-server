@@ -40,25 +40,41 @@ var requestHandler = function(request, response) {
   // };
 
   remember = remember || { results: [] };
-  console.log("remember", remember);
+  // console.log("remember", remember);
 
   // var responseBody = request;
   // responseBody[results] = [];
 
-  if (request.method === 'GET') {
-    statusCode = 200;
-    request.on('data', function() {
-      
-    }, request._postData);
-  } else if (request.method === 'POST') {
-    statusCode = 201;
-    request.on('data', function() {
+  if (request.url === '/classes/messages') {
+    if (request.method === 'GET') {
+      statusCode = 200;
+    
+    
+    // request.on('data', function() {
+    //   // console.log('data', data);
+    //   remember.results.push(request._postData);
+    // });
+    
+    } else if (request.method === 'POST') {
+      statusCode = 201;
 
-    }, request._postData);
+      request.on('data', function(data) {
+        console.log('data', data);
+        remember.results.push(JSON.parse(data));
+      });
 
-    // remember.results.push(request._postData);
+      // remember.results.push(request._postData);
 
-    // request(request.url, request.method, request.json);
+      // request(request.url, request.method, []);
+
+      // request.on('data', function() {
+      //   request._postData.push(JSON.parse(request._postData));
+      // });
+
+      // console.log('request that was supposedly changed', request);
+    }
+  } else {
+    statusCode = 404;
   }
 
 
@@ -85,7 +101,7 @@ var requestHandler = function(request, response) {
   //
   // Calling .end "flushes" the response's internal buffer, forcing
   // node to actually send all the data over to the client.
-  console.log("remember towards end", remember);
+  // console.log("remember towards end", remember);
   // console.log('body? ', JSON.stringify(responseBody));
   response.end(JSON.stringify(remember));
 };

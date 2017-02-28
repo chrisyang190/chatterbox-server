@@ -22,6 +22,8 @@ module.exports = {
     this.url = url;
     this.method = method;
     this._postData = postdata;
+
+    
     this.setEncoding = function() { /* noop */ };
 
     this.addListener = this.on = function(type, callback) {
@@ -32,6 +34,8 @@ module.exports = {
       if (type === 'end') {
         callback();
       }
+
+    console.log('this', this);
 
     }.bind(this);
   }
