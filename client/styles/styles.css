@@ -1,0 +1,129 @@
+body {
+    background: url(SF.jpg) repeat 0 0;
+/*    background-image: url("SF.jpg");
+    background-size: cover;
+    background-repeat: no-repeat;
+    background-position: center center;*/
+    text-align: center;
+    padding: 0 25px;
+    font-family: arial, sans-serif;
+}
+
+#main, #chats {
+    width: 500px;
+    margin: auto;
+    text-align: left;
+    background: #d6afe8;
+    padding: 30px 60px;
+    border: solid #ddd;
+    border-width: 0 1px 1px 1px;
+}
+#chats h1{
+    text-align: center;
+    margin-top: 0;
+    font-size: 35px;
+    margin-bottom: 5px;
+    padding: 5px;
+}
+
+#main h1 {
+    text-align: center;
+    margin-top: 0;
+    font-size: 35px;
+    margin-bottom: 5px;
+    padding: 5px;
+}
+
+#main h1 span {
+    font-style:italic;
+}
+
+#main ul {
+    padding-left: 20px;
+}
+
+#main .error {
+    border: 1px solid red;
+    background: #FDEFF0;
+    padding: 20px;
+}
+
+#main .success {
+    margin-top: 25px;
+}
+
+#main .success code {
+    font-size: 12px;
+    color: green;
+    line-height: 13px;
+}
+
+#chats {
+    background-color: rgba(239, 159, 159, 0.92);
+
+}
+form {
+    text-align: center;
+    padding: 5px;
+    padding-left: 0;
+    margin-bottom: 5px;
+}
+
+form input[type=text] {
+    margin-right: 10px;
+    width: 70%;
+    font-size: 12px;
+    padding: 5px;
+}
+
+.rooms {
+    text-align: center;
+}
+
+.chat {
+    padding: 5px;
+    margin-bottom: 5px;
+    background-color: #eee;
+}
+
+.username {
+    font-weight: 800;
+}
+
+.chat:hover {
+    background-color: #ddd;
+}
+
+.message {
+    word-break: break-all;
+    border: 2px solid white;
+    margin: 5px 0 5px 0;
+}
+
+.message h3 {
+    margin: 5px 0 5px 5px;
+}
+.message div {
+    margin: 0 5px 0 5px;
+}
+
+.message a {
+    color:#2f308a;
+    text-decoration: none;
+}
+
+.spinner {
+    float: right;
+    height: 46px;
+    margin-bottom: 5px;
+}
+
+.spinner img {
+    padding: 10px;
+}
+
+.friend {
+    color: #fff;
+    background-color: #0090da;
+}
+
