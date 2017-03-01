@@ -34,27 +34,29 @@ var requestHandler = function(request, response) {
   // The outgoing status.
   var statusCode;
 
-  // var responseBody = {
-
-  //   results: []
-  // };
+  // See the note below about CORS headers.
+  var headers = defaultCorsHeaders;
+ 
 
   remember = remember || { results: [] };
   // console.log("remember", remember);
 
-  // var responseBody = request;
-  // responseBody[results] = [];
+  
+  // Tell the client we are sending them plain text.
+  //
+  // You will need to change this if you are sending something
+  // other than plain text, like JSON or HTML.
+  
+  //This is gate to for the type of data we send as the response
+  //THIS SHOULD ALWAYS BE JSON :)
+  headers['contentType'] = 'application/json';
+
 
   if (request.url === '/classes/messages') {
     if (request.method === 'GET') {
       statusCode = 200;
     
-    
-    // request.on('data', function() {
-    //   // console.log('data', data);
-    //   remember.results.push(request._postData);
-    // });
-    
+  
     } else if (request.method === 'POST') {
       statusCode = 201;
 
@@ -63,32 +65,15 @@ var requestHandler = function(request, response) {
         remember.results.push(JSON.parse(data));
       });
 
-      // remember.results.push(request._postData);
-
-      // request(request.url, request.method, []);
-
-      // request.on('data', function() {
-      //   request._postData.push(JSON.parse(request._postData));
-      // });
-
-      // console.log('request that was supposedly changed', request);
+    } else if (request.method === 'OPTIONS') {
+      statusCode = 200;
+      // console.log(headers['access-control-allow-methods']);
+      response.writeHead(statusCode, headers);
+      response.end();
     }
   } else {
     statusCode = 404;
   }
-
-
-
-  // See the note below about CORS headers.
-  var headers = defaultCorsHeaders;
-
-  // Tell the client we are sending them plain text.
-  //
-  // You will need to change this if you are sending something
-  // other than plain text, like JSON or HTML.
-  headers['Content-Type'] = 'text/plain';
-
-
 
   // .writeHead() writes to the request line and headers of the response,
   // which includes the status and all headers.
@@ -101,8 +86,8 @@ var requestHandler = function(request, response) {
   //
   // Calling .end "flushes" the response's internal buffer, forcing
   // node to actually send all the data over to the client.
-  // console.log("remember towards end", remember);
-  // console.log('body? ', JSON.stringify(responseBody));
+  
+  // ALWAYS SEND STRINGIFIED BODY BACK FROM SERVER TO CLIENT!! 
   response.end(JSON.stringify(remember));
 };
 

@@ -48,6 +48,20 @@ describe('server', function() {
     });
   });
 
+  it('should accept OPTIONS requests to /classes/messages', function(done) {
+    var requestParams = {method: 'OPTIONS',
+      uri: 'http://127.0.0.1:3000/classes/messages',
+      json: {
+        username: 'Jono',
+        message: 'Do my bidding!'}
+    };
+
+    request(requestParams, function(error, response, body) {
+      expect(response.statusCode).to.equal(200);
+      done();
+    });
+  });
+
   it('should respond with messages that were previously posted', function(done) {
     var requestParams = {method: 'POST',
       uri: 'http://127.0.0.1:3000/classes/messages',
@@ -64,6 +78,46 @@ describe('server', function() {
         console.log('MESG!!' , messages);
         expect(messages[0].username).to.equal('Jono');
         expect(messages[0].message).to.equal('Do my bidding!');
+        done();
+      });
+    });
+  });
+
+    it('should respond with messages all previous messages', function(done) {
+    var requestParams1 = {method: 'POST',
+      uri: 'http://127.0.0.1:3000/classes/messages',
+      json: {
+        username: 'Jono1',
+        message: 'Do my bidding!'}
+    };
+
+    var requestParams2 = {method: 'POST',
+      uri: 'http://127.0.0.1:3000/classes/messages',
+      json: {
+        username: 'Jono2',
+        message: 'Do my bidding again!'}
+    };
+
+
+
+    request(requestParams1, function(error, response, body) {
+      // Now if we request the log, that message we posted should be there:
+      request('http://127.0.0.1:3000/classes/messages', function(error, response, body) {
+        
+        var messages = JSON.parse(body).results;
+        expect(messages[2].username).to.equal('Jono1');
+        expect(messages[2].message).to.equal('Do my bidding!');
+        // done();
+      });
+    });
+
+    request(requestParams2, function(error, response, body) {
+      // Now if we request the log, that message we posted should be there:
+      request('http://127.0.0.1:3000/classes/messages', function(error, response, body) {
+        
+        var messages = JSON.parse(body).results;
+        expect(messages[3].username).to.equal('Jono2');
+        expect(messages[3].message).to.equal('Do my bidding again!');
         done();
       });
     });

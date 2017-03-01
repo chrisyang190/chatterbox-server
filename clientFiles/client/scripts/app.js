@@ -7,7 +7,7 @@ var app = {
   },
   friends: [],
   rooms: [],
-  server: 'http://parse.sfm6.hackreactor.com/chatterbox/classes/messages'
+  server: 'http://127.0.0.1:3000/classes/messages'
 };
 
 $(document).ready(function() {
@@ -39,7 +39,7 @@ $(document).ready(function() {
 app.send = function(message) {
   $.ajax({
     // This is the url you should use to communicate with the parse API server.
-    url: 'http://parse.sfm6.hackreactor.com/chatterbox/classes/messages',
+    url: 'http://127.0.0.1:3000/classes/messages',
     type: 'POST',
     data: JSON.stringify(message),
     contentType: 'application/json',
@@ -70,13 +70,15 @@ var newMessages = [];
 app.fetch = function() {
   $.ajax({
   // This is the url you should use to communicate with the parse API server.
-    url: 'http://parse.sfm6.hackreactor.com/chatterbox/classes/messages',
+    url: 'http://127.0.0.1:3000/classes/messages',
     type: 'GET',
-    data: {'order': '-createdAt'},
+    // data: {'order': '-createdAt'},
     contentType: 'application/json',
     success: function (data) {
       newMessages = [];
-      data.results.forEach(function(value) {
+      
+      // REMEMBER TO PARSE THIS DATA, SINCE IT WAS STRINGIFIED FROM SERVER TO CLIENT!
+      (JSON.parse(data)).results.forEach(function(value) {
         newMessages.push(value);
       });
       $('#chats').children('.message').remove();
@@ -86,7 +88,7 @@ app.fetch = function() {
         }
       });
 
-      data.results.forEach(function(value) {
+      (JSON.parse(data)).results.forEach(function(value) {
         var roomname = _escape(value.roomname);
         if (app.rooms.indexOf(value.roomname) === -1) {
           app.rooms.push(value.roomname);
